@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import AddTodoForm from "./components/addTodoForm";
+import TodosTable from "./components/todoTable";
+import todos from "./todos";
+import { useState } from 'react';
 
 function App() {
+
+  const [myTodos, setMyTodos] = useState(todos);
+  const [showForm, setShowForm] = useState(false);
+
+  const handleTodoListUpdate = (todoObj) => {
+    const myTodosCopy = [...myTodos, todoObj];
+    setMyTodos(myTodosCopy);
+  }
+
+  const handleShowForm = () => {
+    setShowForm(!showForm);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="heading">Todo-List</div>
+      <button onClick={handleShowForm}>{showForm ? "Hide Form" : `Add Todo`}</button>
+      {showForm && <AddTodoForm handleTodoListUpdate={handleTodoListUpdate}/>}
+      <TodosTable todoList={myTodos} />
     </div>
   );
 }
